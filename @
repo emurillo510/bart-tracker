@@ -1,7 +1,9 @@
-class BartSchedulesController < ApplicationController
+class Api::V1::BartSchedulesController < ApplicationController
   def index
     @bart_schedule = BartSchedule.new
     @departures=@bart_schedule.get_departures("SANL","EMBR")
+    
+    @params = schedule_params
   end
 
   def new
@@ -33,8 +35,9 @@ class BartSchedulesController < ApplicationController
   # since you'll be able to reuse the same permit list between create and update. Also, you can
   # speciailze this miethod with per-user checking of permissible attributes.
 
-  def schedule_params
-    params.require(:bart_schedule).permit(:id)
+  def schedule_params 
+    puts params.permit(:depart, :orig, :dest)
+    #params.require(:bart_schedule).permit(:depart,:orig,:dest)
   end
 
 end
