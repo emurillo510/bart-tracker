@@ -12,24 +12,24 @@ class Api::V1::BartSchedulesController < ApplicationController
 
       respond_to do |format|
          format.html { render :index }
-         format.json { render json: @departures, status: 200 } 
+         format.json { render json: @departures, status: 200 }
       end
     when "arrive"
-      @departures = @bart_schedule.get_schedule(cmd,orig,dest)    
-  
+      @departures = @bart_schedule.get_schedule(cmd,orig,dest)
+
       respond_to do |format|
          format.html { render :index }
          format.json { render json: @departures, status: 200 }
       end
     else
 
-      @departures = "{ message: request not found. Http Error Code 404. }"
+      @message = "{ message: request not found. Http Error Code 404. }"
       respond_to do |format|
          format.html { render :index }
-         format.json { render json: @departures, status: 404 }
+         format.json { render json: @message, status: 404 }
       end
     end
-    
+
   end
 
   def new
@@ -39,7 +39,7 @@ class Api::V1::BartSchedulesController < ApplicationController
   def create
 
   end
-  
+
   def show
 
   end
@@ -47,7 +47,7 @@ class Api::V1::BartSchedulesController < ApplicationController
   def edit
 
   end
-    
+
   def update
 
   end
@@ -61,7 +61,7 @@ class Api::V1::BartSchedulesController < ApplicationController
   # since you'll be able to reuse the same permit list between create and update. Also, you can
   # speciailze this miethod with per-user checking of permissible attributes.
 
-  def schedule_params 
+  def schedule_params
     #puts params.permit(:depart, :orig, :dest)
     params.permit(:cmd,:orig,:dest)
   end
