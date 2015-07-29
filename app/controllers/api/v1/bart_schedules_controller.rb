@@ -31,31 +31,7 @@ class Api::V1::BartSchedulesController < ApplicationController
     end
 
   end
-
-  def new
-
-  end
-
-  def create
-
-  end
-
-  def show
-
-  end
-
-  def edit
-
-  end
-
-  def update
-
-  end
-
-  def destroy
-
-  end
-
+  
   private
   # Using a private method to encapsuilate the permissible parameters is just a good pattern
   # since you'll be able to reuse the same permit list between create and update. Also, you can
