@@ -1,26 +1,31 @@
 class BartSchedule < ActiveRecord::Base
   after_initialize :default_values
 
-  @@DELIMITER="&"
+  $DELIMITER="&"
+  $base_url = "http://api.bart.gov/"
+  $api = "api/sched.aspx?"
+  $key = "key=" << Rails.application.secrets.bart_api_key
+  
 
   def default_values
-    @@base_url = "http://api.bart.gov/"
-    @@api = "api/sched.aspx?"
-    @@cmd = "cmd="
-    @@params = ""
-    @@key = "key=" << Rails.application.secrets.bart_api_key
 
   end
 
-  def get_schedule(cmd,orig,dest)
-    @@cmd += cmd + @@DELIMITER
-    @@params += "orig=" + orig + @@DELIMITER + "dest=" + dest + @@DELIMITER + "date=now" + @@DELIMITER + "b=0" + @@DELIMITER + "a=4" + @@DELIMITER
+  def self.get_schedule(cmd,orig,dest)
+    cmd = "cmd=" + cmd + $DELIMITER
+    params = "orig=" + orig + $DELIMITER + "dest=" + dest + $DELIMITER + "date=now" + $DELIMITER + "b=0" + $DELIMITER + "a=4" + $DELIMITER
+    
+    api_request = URI($base_url+$api+cmd+params+$key)
+    bart_api_request(api_request)
+  end
 
-    url= URI(@@base_url+@@api+@@cmd+@@params+@@key)
+  private
+
+  def self.bart_api_request(url)
     api_response = Net::HTTP.get(url)
 
-    @doc = Nokogiri::XML(api_response)
-    response =  characters = @doc.css('root').to_xml
-    json_res= Hash.from_xml(response).to_json
+    @xml = Nokogiri::XML(api_response)
+    response = characters = @xml.css('root').to_xml
+    json_response = Hash.from_xml(response).to_json
   end
 end

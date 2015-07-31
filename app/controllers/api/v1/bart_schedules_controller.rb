@@ -1,6 +1,6 @@
 class Api::V1::BartSchedulesController < ApplicationController
   def index
-    @bart_schedule = BartSchedule.new
+    #@bart_schedule = BartSchedule.new
     @params = schedule_params
     cmd = schedule_params["cmd"]
     orig = schedule_params["orig"]
@@ -8,14 +8,15 @@ class Api::V1::BartSchedulesController < ApplicationController
 
     case cmd
     when "depart"
-      @departures = @bart_schedule.get_schedule(cmd,orig,dest)
+      #@departures = @bart_schedule.get_schedule(cmd,orig,dest)
+      @departures = BartSchedule.get_schedule(cmd,orig,dest)
 
       respond_to do |format|
          format.html { render :index }
          format.json { render json: @departures, status: 200 }
       end
     when "arrive"
-      @departures = @bart_schedule.get_schedule(cmd,orig,dest)
+      @departures = BartSchedule.get_schedule(cmd,orig,dest)
 
       respond_to do |format|
          format.html { render :index }
