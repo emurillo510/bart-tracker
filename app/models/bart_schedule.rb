@@ -6,11 +6,6 @@ class BartSchedule < ActiveRecord::Base
   $api = "api/sched.aspx?"
   $key = "key=" << Rails.application.secrets.bart_api_key
   
-
-  def default_values
-
-  end
-
   def self.get_schedule(cmd,orig,dest)
     cmd = "cmd=" + cmd + $DELIMITER
     params = "orig=" + orig + $DELIMITER + "dest=" + dest + $DELIMITER + "date=now" + $DELIMITER + "b=0" + $DELIMITER + "a=4" + $DELIMITER
@@ -20,7 +15,6 @@ class BartSchedule < ActiveRecord::Base
   end
 
   private
-
   def self.bart_api_request(url)
     api_response = Net::HTTP.get(url)
 
