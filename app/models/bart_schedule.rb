@@ -3,14 +3,22 @@ class BartSchedule < ActiveRecord::Base
 
   $DELIMITER="&"
   $base_url = "http://api.bart.gov/"
-  $api = "api/sched.aspx?"
   $key = "key=" << Rails.application.secrets.bart_api_key
   
   def self.get_schedule(cmd,orig,dest)
+    api = "api/sched.aspx?"
     cmd = "cmd=" + cmd + $DELIMITER
     params = "orig=" + orig + $DELIMITER + "dest=" + dest + $DELIMITER + "date=now" + $DELIMITER + "b=0" + $DELIMITER + "a=4" + $DELIMITER
     
-    api_request = URI($base_url+$api+cmd+params+$key)
+    api_request = URI($base_url+api+cmd+params+$key)
+    bart_api_request(api_request)
+  end
+
+  def self.get_stations(cmd)
+    api = "api/stn.aspx?"
+    cmd = "cmd=" + cmd + $DELIMITER
+
+    api_request = URI($base_url+api+cmd+$key)
     bart_api_request(api_request)
   end
 

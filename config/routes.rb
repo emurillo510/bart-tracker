@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   root 'bart_schedules#index'
 
   # create namespace http://api.lvh.me:3000/v1/bart_schedules/depart/SANL/EMBR
-  namespace :api, constraints: { subdomain: 'api' }, path: '/v1'  do
+  namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/v1'  do
     scope module: :v1 do
-      get 'bart_schedules/:cmd/:orig/:dest' => 'bart_schedules#index'
+      get 'bart_schedules/:cmd/:orig/:dest' => 'bart_schedules#schedules'
+      get 'bart_stations/:cmd/' => 'bart_schedules#stations'
     end
   end
 
